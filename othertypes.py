@@ -19,17 +19,24 @@ with open('confirmed.txt', "r") as f:
   for video in f:
     confirmed.append(video.replace("\n", ""))
 
+with open('avis.txt', "r") as f:
+  for video in f:
+    confirmed.append(video.replace("\n", ""))
+
 for url in raw:
   if url not in confirmed:
     unconfirmed.append(url)
+
+print(len(unconfirmed))
 
 def check(url:str,type:str,format:str,filetype=None):
   n = 0
   found = False
   if not filetype:
     filetype = format
+  url = url.replace('.mp4',f'.{format}')
   while n < 2:
-    r = requests.head(f'{url.replace('.mp4',f'.{format}')}', headers={"User-Agent":ua.random}, cookies={'justiceGovAgeVerified':'true'})
+    r = requests.head(url, headers={"User-Agent":ua.random}, cookies={'justiceGovAgeVerified':'true'})
     if r.status_code == 200:
       if r.headers['Content-Type'] == f"{type}/{filetype}":
         print(f"found {format}")
@@ -43,8 +50,9 @@ def check(url:str,type:str,format:str,filetype=None):
   
 for url in unconfirmed:
   print(f'checking {url}')
-  # videos
   notFound = True
+  """
+  # videos
   if notFound and check(url,"video","avi"):
     notFound = False
   elif notFound and check(url,"video","mpeg"):
@@ -53,7 +61,7 @@ for url in unconfirmed:
     notFound = False
   """
   #images
-  elif notFound and check(url,"image","jpeg"):
+  if notFound and check(url,"image","jpeg"):
     notFound = False
   elif notFound and check(url,"image","gif"):
     notFound = False
@@ -63,7 +71,7 @@ for url in unconfirmed:
     notFound = False
   elif notFound and check(url,"image","webp"):
     notFound = False
-  
+  """
   #audio
   elif notFound and check(url,"audio","mp3"):
     notFound = False
