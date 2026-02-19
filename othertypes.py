@@ -10,10 +10,11 @@ def write(line:str):
 raw = []
 confirmed = []
 unconfirmed = []
+
 with open('videos.txt', "r") as f:
   for video in f:
     raw.append(video.replace("\n", ""))
-
+    
 with open('confirmed.txt', "r") as f:
   for video in f:
     confirmed.append(video.replace("\n", ""))
@@ -31,6 +32,7 @@ def check(url:str,type:str,format:str,filetype=None):
     r = requests.head(f'{url.replace('.mp4',f'.{format}')}', headers={"User-Agent":ua.random}, cookies={'justiceGovAgeVerified':'true'})
     if r.status_code == 200:
       if r.headers['Content-Type'] == f"{type}/{filetype}":
+        print(f"found {format}")
         write(url)
         print(url)
         found = True
@@ -40,6 +42,7 @@ def check(url:str,type:str,format:str,filetype=None):
   return found
   
 for url in unconfirmed:
+  print(f'checking {url}')
   # videos
   notFound = True
   if notFound and check(url,"video","avi"):
@@ -48,7 +51,7 @@ for url in unconfirmed:
     notFound = False
   elif notFound and check(url,"video","webm"):
     notFound = False
-  
+  """
   #images
   elif notFound and check(url,"image","jpeg"):
     notFound = False
@@ -101,4 +104,4 @@ for url in unconfirmed:
     notFound = False
   elif notFound and check(url,"application","xml"):
     notFound = False
-    
+  """
