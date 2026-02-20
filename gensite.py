@@ -1,8 +1,12 @@
 import glob
 from dominate import document
 from dominate.tags import *
+from dominate.util import raw
 
 doc = document(title='epstein video list')
+
+with doc.head:
+  meta(name='viewport',content='width=device-width, initial-scale=1, shrink-to-fit=no')
 
 with doc:
   h1('mp4s')

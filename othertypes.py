@@ -7,25 +7,11 @@ def write(line:str):
   with open('othertypes.txt', "a") as f:
     f.write(f"{line}\n")
     
-raw = []
-confirmed = []
 unconfirmed = []
 
-with open('videos.txt', "r") as f:
+with open('unconfirmed.txt', "r") as f:
   for video in f:
-    raw.append(video.replace("\n", ""))
-    
-with open('confirmed.txt', "r") as f:
-  for video in f:
-    confirmed.append(video.replace("\n", ""))
-
-with open('avis.txt', "r") as f:
-  for video in f:
-    confirmed.append(video.replace("\n", ""))
-
-for url in raw:
-  if url not in confirmed:
-    unconfirmed.append(url)
+    unconfirmed.append(video.replace("\n", ""))
 
 print(len(unconfirmed))
 
